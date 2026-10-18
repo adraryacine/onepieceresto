@@ -25,10 +25,11 @@ export const siteConfig = {
   },
 
   // Fiche Google Maps « Restaurant One Piece » (lien fourni par le client).
-  // Coordonnées exactes de l'épingle : 36.7505877, 5.0554996.
-  mapEmbedUrl: 'https://www.google.com/maps?q=36.7505877,5.0554996&z=17&output=embed',
-  mapLink: 'https://www.google.com/maps/place/Restaurant+One+Piece/@36.7505877,5.0554996,17z/data=!4m6!3m5!1s0x128d33007bf90b69:0x7c05927afea3fb61!8m2!3d36.7505877!4d5.0554996',
-  directionsLink: 'https://www.google.com/maps/dir/?api=1&destination=36.7505877,5.0554996',
+  // Identifiants de la fiche : cid 8936710092542442337 · place_id ChIJaQv5ewAzjRIRYfuj_nqSBXw
+  // → la carte, le lien et l'itinéraire ouvrent la FICHE du resto (nom, avis, photos), pas un simple point.
+  mapEmbedUrl: 'https://www.google.com/maps?cid=8936710092542442337&output=embed',
+  mapLink: 'https://www.google.com/maps/place/Restaurant+One+Piece/@36.7505877,5.050736,664m/data=!3m1!1e3!4m10!1m2!2m1!1sone+piece+4%C3%A8me+quartier+dallas+b%C3%A9ja%C3%AFa!3m6!1s0x128d33007bf90b69:0x7c05927afea3fb61!8m2!3d36.7505877!4d5.0554996!15sCihvbmUgcGllY2UgNMOobWUgcXVhcnRpZXIgZGFsbGFzIGLDqWphw69h4AEA!16s%2Fg%2F11zf4ff_mt?hl=fr-FR',
+  directionsLink: 'https://www.google.com/maps/dir/?api=1&destination=Restaurant+One+Piece&destination_place_id=ChIJaQv5ewAzjRIRYfuj_nqSBXw',
 
   // ----- Horaires (affiche « Horaires de travail ») ---------------------------
   // day : 0 = dimanche … 5 = vendredi. close 24 = minuit.
