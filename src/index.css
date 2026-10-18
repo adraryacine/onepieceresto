@@ -1,0 +1,298 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+   THÈMES
+   - Parchemin (jour) : repris des affiches du menu — papier vieilli, bandeaux
+     rouges au pinceau, encre noire, vagues bleues.
+   - Nuit : repris de l'affiche des horaires — noir profond, or, serif gravé.
+   Les composants n'utilisent que les variables : changer de thème = changer
+   l'attribut data-theme sur <html>.
+   ============================================================================ */
+:root {
+  --page: 242 226 190;
+  --surface: 251 242 221;
+  --surface-2: 236 218 180;
+  --ink: 30 21 14;
+  --primary: 214 40 40;
+  --primary-dark: 168 24 24;
+  --on-primary: 255 246 228;
+  --gold: 160 114 36;
+  --sea: 29 95 168;
+  --shadow: 90 55 20;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --page: 11 10 8;
+  --surface: 22 19 15;
+  --surface-2: 33 29 23;
+  --ink: 240 228 204;
+  --primary: 212 170 92;
+  --primary-dark: 182 140 64;
+  --on-primary: 16 12 8;
+  --gold: 212 170 92;
+  --sea: 74 150 214;
+  --shadow: 0 0 0;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-page text-ink font-sans antialiased;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  ::selection {
+    background-color: rgb(var(--primary));
+    color: rgb(var(--on-primary));
+  }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: rgb(var(--surface-2)); }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--ink) / 0.7);
+    border-radius: 6px;
+    border: 2px solid rgb(var(--surface-2));
+  }
+}
+
+@layer components {
+  /* Petit label au-dessus des titres */
+  .section-label {
+    @apply inline-block font-serif text-[11px] font-bold tracking-widest uppercase text-gold mb-3;
+  }
+
+  /* Grand titre (police ronde et grasse des affiches menu) */
+  .section-title {
+    @apply font-display text-5xl md:text-6xl font-extrabold text-ink leading-[0.95];
+  }
+  :root[data-theme='dark'] .section-title {
+    @apply font-serif font-black tracking-wide;
+  }
+
+  /* Filet décoratif avec boussole au centre — voir composant Divider */
+  .divider-line {
+    @apply h-px flex-1 bg-ink/25;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5
+           font-sans text-xs font-bold tracking-widest uppercase text-on-primary
+           bg-primary cursor-pointer transition-all duration-300;
+    box-shadow: 0 10px 26px -10px rgb(var(--primary) / 0.7);
+  }
+  .btn-primary:hover {
+    @apply bg-primary-dark;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px -10px rgb(var(--primary) / 0.85);
+  }
+  .btn-primary:disabled {
+    @apply opacity-40 cursor-not-allowed bg-primary;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5
+           font-sans text-xs font-bold tracking-widest uppercase
+           text-ink border-2 border-ink/25 bg-transparent
+           cursor-pointer transition-all duration-300
+           hover:border-ink hover:bg-ink hover:text-page;
+  }
+
+  .btn-sea {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5
+           font-sans text-xs font-bold tracking-widest uppercase text-white
+           bg-sea cursor-pointer transition-all duration-300 hover:brightness-110;
+    box-shadow: 0 10px 26px -12px rgb(var(--sea) / 0.8);
+  }
+
+  /* Carte : bordure fine encre, coins arrondis (cadres des affiches menu) */
+  .card {
+    @apply rounded-2xl border-2 border-ink/10 bg-surface shadow-card;
+  }
+  :root[data-theme='dark'] .card {
+    @apply border-gold/20;
+  }
+
+  /* Prix en pastille rouge arrondie — exactement comme sur les affiches */
+  .price-pill {
+    @apply inline-flex items-baseline gap-0.5 rounded-full bg-primary text-on-primary
+           font-display font-bold leading-none whitespace-nowrap px-2.5 py-1;
+  }
+
+  .field {
+    @apply w-full rounded-xl bg-surface2/60 border-2 border-ink/10 focus:border-primary
+           px-4 py-3 font-sans text-sm text-ink outline-none transition-colors placeholder:text-ink/30;
+  }
+  .field-label {
+    @apply block font-sans text-[11px] font-bold text-ink/50 tracking-widest uppercase mb-1.5;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Bandeau « coup de pinceau » (titres de catégories des affiches)
+   ---------------------------------------------------------------------------- */
+.brush {
+  position: relative;
+  isolation: isolate;
+  color: rgb(var(--on-primary));
+}
+.brush::before {
+  content: '';
+  position: absolute;
+  inset: -6px -14px;
+  z-index: -1;
+  background: rgb(var(--primary));
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 60' preserveAspectRatio='none'%3E%3Cpath d='M6 10 L30 4 L70 8 L120 2 L180 7 L240 1 L300 6 L350 2 L392 8 L388 18 L398 26 L390 34 L396 44 L384 52 L340 56 L290 52 L230 58 L170 53 L110 59 L60 54 L18 58 L8 50 L2 40 L9 31 L1 22 Z' fill='black'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 60' preserveAspectRatio='none'%3E%3Cpath d='M6 10 L30 4 L70 8 L120 2 L180 7 L240 1 L300 6 L350 2 L392 8 L388 18 L398 26 L390 34 L396 44 L384 52 L340 56 L290 52 L230 58 L170 53 L110 59 L60 54 L18 58 L8 50 L2 40 L9 31 L1 22 Z' fill='black'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+
+/* ----------------------------------------------------------------------------
+   Textures de fond
+   ---------------------------------------------------------------------------- */
+/* Grain de papier (jour) / grain de nuit — calque SVG turbulence */
+.paper {
+  position: relative;
+}
+.paper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.3 0 0 0 0 0.12 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+:root[data-theme='dark'] .paper::after {
+  mix-blend-mode: screen;
+  opacity: 0.12;
+}
+
+/* Vignettage sur les bords (papier brûlé / halo de lanterne) */
+.vignette {
+  background-image:
+    radial-gradient(ellipse at center, transparent 55%, rgb(120 70 20 / 0.22) 100%);
+}
+:root[data-theme='dark'] .vignette {
+  background-image:
+    radial-gradient(ellipse at 50% 30%, rgb(212 170 92 / 0.08), transparent 60%),
+    radial-gradient(ellipse at center, transparent 50%, rgb(0 0 0 / 0.6) 100%);
+}
+
+/* Lignes de carte marine (méridiens) — très discrètes */
+.chart-lines {
+  background-image:
+    linear-gradient(rgb(var(--ink) / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--ink) / 0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* ----------------------------------------------------------------------------
+   Affiche WANTED
+   ---------------------------------------------------------------------------- */
+.wanted {
+  background:
+    radial-gradient(ellipse at center, #F4E2B8 40%, #DCC08A 100%);
+  color: #2A1C10;
+  box-shadow:
+    0 1px 0 rgb(0 0 0 / 0.05),
+    0 22px 40px -20px rgb(0 0 0 / 0.6);
+}
+.wanted::before {
+  /* punaise */
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, #ff6b6b, #8b0000);
+  box-shadow: 0 2px 3px rgb(0 0 0 / 0.4);
+}
+
+/* ----------------------------------------------------------------------------
+   Animations
+   ---------------------------------------------------------------------------- */
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-6px) rotate(2deg); }
+}
+@keyframes wave-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.72; }
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  45%      { opacity: 0.85; }
+  50%      { opacity: 0.6; }
+  55%      { opacity: 0.9; }
+}
+@keyframes impact {
+  0%   { transform: scale(0.3) rotate(-8deg); opacity: 0; }
+  60%  { transform: scale(1.15) rotate(3deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-3deg); opacity: 1; }
+}
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0) rotate(var(--tilt, 0deg)); }
+  20% { transform: translate(-4px, 2px) rotate(var(--tilt, 0deg)); }
+  40% { transform: translate(4px, -2px) rotate(var(--tilt, 0deg)); }
+  60% { transform: translate(-3px, -1px) rotate(var(--tilt, 0deg)); }
+  80% { transform: translate(2px, 1px) rotate(var(--tilt, 0deg)); }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-modal-in { animation: modal-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-overlay-in { animation: overlay-in 0.25s ease-out both; }
+.animate-spin-slow { animation: spin-slow 60s linear infinite; }
+.animate-float { animation: float 4s ease-in-out infinite; }
+.animate-bob { animation: bob 3.2s ease-in-out infinite; }
+.animate-pulse-soft { animation: pulse-soft 1.4s ease-in-out infinite; }
+.animate-flicker { animation: flicker 3s ease-in-out infinite; }
+.animate-impact { animation: impact 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+.animate-shake { animation: shake 0.35s ease-in-out both; }
+.animate-rise { animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Révélation au scroll (voir hook useReveal) */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}

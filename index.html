@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Restaurant One Piece — Béjaïa. Grand Line Cuisine : burgers, pizzas, Wano (sushi, ramen, yakitori), grillades, cocktails. Commandez en ligne. Mangez comme un vrai pirate !"
+    />
+    <meta name="theme-color" content="#0B0A08" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Restaurant One Piece — Béjaïa" />
+    <meta property="og:description" content="Embarquez à bord ! Burgers, pizzas, cuisine de Wano & cocktails. Good food, good adventure." />
+    <meta property="og:image" content="/images/gallery/facade.jpg" />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Cinzel:wght@500;700;900&family=Dancing+Script:wght@600;700&family=Permanent+Marker&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Applique le thème mémorisé AVANT le rendu (évite le flash clair → sombre). -->
+    <script>
+      try {
+        var q = new URLSearchParams(location.search).get('theme')
+        var t = q || localStorage.getItem('op-theme')
+        if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t
+      } catch (e) {}
+    </script>
+
+    <title>Restaurant One Piece — Béjaïa</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
